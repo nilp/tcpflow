@@ -1,0 +1,21 @@
+MAINTAINER
+==========
+Simson L. Garfinkel <simsong@acm.org>
+
+
+ACKNOWLEDGEMENTS
+================
+Thanks to:
+* Jeffrey Pang, for the radiotap implementation
+* Doug Madory, for the  Wifi parser
+* Jeremy Elson, for the original idea and initial tcp/ip implementation
+
+Additional and thanks:
+
+* Johnny Tevessen <j.tevessen@gmx.net>, for Linux systems still using libc5.
+
+* Ross Golder <rossigee@bigfoot.com>, for a spec file for generating tcpflow RPMs.
+
+* Jose M. Alcaide <jose@we.lc.ehu.es>, patch for the -r option
+
+

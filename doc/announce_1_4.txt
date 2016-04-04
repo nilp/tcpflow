@@ -1,0 +1,104 @@
+I'm pleased to announce the release of tcpflow version 1.4.0.
+
+Key elements in 1.4.0 include:
+
+Completely rewritten TCP implementation that:
+
+* Handles TCP flows larger than 4GiB
+
+* Handles TCP packets sent after a connection is closed. Such packets are
+  compared with the packets from the connection that were already
+  received. If the packets match, they are discarded as
+  retransmissions. If they do not match they are put in new transcript
+  files.
+
+Incompatiable Changes:
+
+* -e (alternate colors of console output) has been renamed -J
+  so that -e and -E can be used in a manner consistent with bulk_extractor 
+
+Completely rewritten HTTP parser
+
+* Handles multiple HTTP objects per connections
+
+* Optional http_cmd will run a program or script for each HTTP
+  attachment received as received. For example, to run the program
+  /bin/echo and provide the filename of the attachment for each
+  attachment, specify:
+
+      tcpflow -Shttp_cmd=/bin/echo ...
+
+* Optional timeout on tcp connections, causes processing of HTTP
+  objects before the HTTP connection closes:  
+
+      -Stcp_timeout=10
+
+* Optional alert file descriptor causes http parser to alert as files are opened and closed
+  by the HTTP parser. e.g.:
+
+$ ./tcpflow -o out -a  -E http -S http_alert_fd=1 -r ../tests/multifile_25_21.pcap
+open        out/038.122.002.045.00080-192.168.123.101.04634-HTTPBODY-001.png
+close       out/038.122.002.045.00080-192.168.123.101.04634-HTTPBODY-001.png
+open        out/038.122.002.045.00080-192.168.123.101.04637-HTTPBODY-001.png
+close       out/038.122.002.045.00080-192.168.123.101.04637-HTTPBODY-001.png
+open        out/038.122.002.045.00080-192.168.123.101.04637-HTTPBODY-002.png
+close       out/038.122.002.045.00080-192.168.123.101.04637-HTTPBODY-002.png
+open        out/038.122.002.045.00080-192.168.123.101.04648-HTTPBODY-001.png
+close       out/038.122.002.045.00080-192.168.123.101.04648-HTTPBODY-001.png
+open        out/038.122.002.045.00080-192.168.123.101.04649-HTTPBODY-001.png
+close       out/038.122.002.045.00080-192.168.123.101.04649-HTTPBODY-001.png
+open        out/038.122.002.045.00080-192.168.123.101.04654-HTTPBODY-001
+close       out/038.122.002.045.00080-192.168.123.101.04654-HTTPBODY-001
+open        out/038.122.002.045.00080-192.168.123.101.04655-HTTPBODY-001
+close       out/038.122.002.045.00080-192.168.123.101.04655-HTTPBODY-001
+open        out/038.122.002.045.00080-192.168.123.101.04655-HTTPBODY-002
+close       out/038.122.002.045.00080-192.168.123.101.04655-HTTPBODY-002
+...
+
+
+New Scalability features:
+
+* Automatically creates new directories as necessary for output
+  filenames that include forward slashes ("/").
+
+* -Fk option automatically bins up to a thousand flows in a thousand
+   directories in one directory layer, easily handling up to million
+   flows.
+
+* -Fm option automatically bins up to a thousand flows in a million
+   directories (two directory layers), easily handling up to billion flows.
+
+* -Fg option automatically bins up to a thousand flows in a billion
+   directories (three directory layers), easily handling up to trillion flows.
+
+Additional features:
+
+* Produces a one-page visualization (report.pdf) of the packets that
+  were analyzed.
+
+* New -w option writes a PCAP file of packets not processed by tcpflow.
+
+* Better support for decoding and decompressing HTTP objects,
+  including multiple objects sent over a single HTTP stream.
+
+* Full support for the bulk_extractor plug-in system
+
+
+
+You can download version 1.4.0, both source and precompiled windows binaries,
+from:
+
+https://github.com/simsong/tcpflow/downloads
+
+
+
+(what we didn't get to)
+The following is scheduled for release 1.5:
+
+* Full handling of radiotap files
+
+* Passive DNS implementation
+
+* top-100 connection map
+
+
