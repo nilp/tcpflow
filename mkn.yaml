@@ -32,7 +32,6 @@ dep:
     version: master
   - name: org.boost
     version: master
-    profile: system
 mode: none
 lib: cairo crypto dl pcap z
 arg: -DHAVE_BOOST_ICL_INTERVAL_HPP=1 -DHAVE_BOOST_ICL_INTERVAL_MAP_HPP=1 -DHAVE_BOOST_ICL_INTERVAL_SET_HPP=1 -DHAVE_BOOST_VERSION_HPP=1
