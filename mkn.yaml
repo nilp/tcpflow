@@ -1,35 +1,9 @@
-#! clean build -dtSa "-Os -fPIC" -l "-pthread -lcairo -lcrypto -ldl -lz"
+#! clean build -dtKa "-Os" -l "-pthread"
 
 # How to build
 #   ./boostrap
-#
-# Edit configure and comment lines from
-#
-# ################################################################
-# # Boost
-#
-# to
-#
-# ################################################################
-# # drawing support via cairo
-#
-#   ./configure --prefix=$PWD
-#
-# Edit config.h and override the existing settings with the following
-#
-# /* Define to 1 if you have the <boost/icl/interval.hpp> header file. */
-# #define HAVE_BOOST_ICL_INTERVAL_HPP 1
-# 
-# /* Define to 1 if you have the <boost/icl/interval_map.hpp> header file. */
-# #define HAVE_BOOST_ICL_INTERVAL_MAP_HPP 1
-# 
-# /* Define to 1 if you have the <boost/icl/interval_set.hpp> header file. */
-# #define HAVE_BOOST_ICL_INTERVAL_SET_HPP 1
-# 
-# /* Define to 1 if you have the <boost/version.hpp> header file. */
-# #define HAVE_BOOST_VERSION_HPP 1
-#
-#   mkn clean build -dtSa "-Os -fPIC" -l "-pthread -lcairo -lcrypto -ldl -lz"
+#   ./configure
+#   mkn clean build -dtSa "-Os -fPIC" -l "-pthread"
 
 # How to run once built
 #   mkn run -a "-r <directory>"
@@ -37,11 +11,10 @@
 name: tcpflow_dekken
 
 main: src/tcpflow.cpp      
-src:  src/datalink.cpp      src/flow.cpp
-      src/mime_map.cpp      src/tcpdemux.cpp
-      src/tcpip.cpp         src/scan_http.cpp
-      src/scan_md5.cpp      src/scan_netviz.cpp
-      src/scan_tcpdemux.cpp src/util.cpp
+src:  src/datalink.cpp      src/datalink_wifi.cpp src/flow.cpp
+      src/mime_map.cpp      src/tcpdemux.cpp      src/tcpip.cpp
+      src/scan_http.cpp     src/scan_md5.cpp      src/scan_netviz.cpp
+      src/scan_tcpdemux.cpp src/scan_wifiviz.cpp  src/util.cpp
       src/be13_api
       src/dfxml/src/dfxml_writer.cpp
       src/http-parser/http_parser.c    src/netviz/one_page_report.cpp
@@ -50,6 +23,8 @@ src:  src/datalink.cpp      src/flow.cpp
       src/netviz/packetfall.cpp        src/netviz/plot_view.cpp
       src/netviz/port_histogram.cpp    src/netviz/port_histogram_view.cpp
       src/netviz/time_histogram.cpp    src/netviz/time_histogram_view.cpp
+      src/wifipcap/cpack.cpp           src/wifipcap/wifipcap.cpp
+      src/wifipcap/TimeVal.cpp
 inc:  . src src/wifipcap src/be13_api 
 
 dep:
@@ -58,3 +33,6 @@ dep:
   - name: org.boost
     version: master
     profile: system
+mode: none
+lib: cairo crypto dl pcap z
+arg: -DHAVE_BOOST_ICL_INTERVAL_HPP=1 -DHAVE_BOOST_ICL_INTERVAL_MAP_HPP=1 -DHAVE_BOOST_ICL_INTERVAL_SET_HPP=1 -DHAVE_BOOST_VERSION_HPP=1

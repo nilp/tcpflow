@@ -251,37 +251,6 @@ fi
 AC_CHECK_HEADERS([pthread.h])
 AC_CHECK_LIB([pthreadGC2],[pthread_create])
 
-################################################################
-# Boost
-AC_CHECK_HEADERS([boost/version.hpp],,
-  AC_MSG_WARN([tcpflow now requires boost interval_map and interval_set.])
-  if test x"$mingw" = x"yes" ; then 
-    AC_MSG_ERROR([Please install mingw32-boost and mingw64-boost])
-  else
-    AC_MSG_ERROR([Please install boost-devel or libboost-dev.])
-  fi
-)
-
-# Now make sure we have the correct boost version
-AC_LANG_PUSH(C++)
-  have_interval=yes
-  AC_CHECK_HEADERS([boost/icl/interval.hpp boost/icl/interval_map.hpp boost/icl/interval_set.hpp],,have_interval=no)
-  if test "${have_interval}" != yes ; then
-    AC_MSG_ERROR([
-tcpflow requires a version of Boost that has Boost interval_map and interval_set.
-Your version is too old! Please install a current version of Boost from http://www.boost.org/users/download/.
-
-Try these commands:
-  wget http://downloads.sourceforge.net/project/boost/boost/1.53.0/boost_1_53_0.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Fboost%2Ffiles%2Fboost%2F1.53.0%2F&ts=1362359340&use_mirror=hivelocity
-  tar xfz boost_1_53_0.tar.gz
-  cd boost_1_53_0
-  sh bootstrap.sh
-  ./b2
-  sudo ./b2 install
-... and then re-run configure!
-])
-  fi
-AC_LANG_POP()    
 
 ################################################################
 # drawing support via cairo
